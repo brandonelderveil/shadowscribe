@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShadowScribe</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main id="app">
+        <section id="landing-view" class="view">
+            <div class="card">
+                <h1>ShadowScribe</h1>
+                <form id="join-form" autocomplete="off">
+                    <label for="room-id">Room UUID</label>
+                    <div class="input-row">
+                        <input id="room-id" name="room" type="text" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" required>
+                        <button id="generate-room" type="button" class="ghost">Generate</button>
+                    </div>
+                    <label for="passphrase">Your Phrase</label>
+                    <input id="passphrase" name="phrase" type="password" minlength="4" required>
+                    <button type="submit" class="primary">Connect</button>
+                </form>
+            </div>
+        </section>
+        <section id="chat-view" class="view hidden">
+            <aside id="sidebar" class="sidebar">
+                <header class="sidebar-header">
+                    <button id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+                    <h2>Room</h2>
+                </header>
+                <div class="sidebar-body">
+                    <div class="room-meta">
+                        <span id="room-label"></span>
+                        <small id="room-expiry"></small>
+                    </div>
+                    <h3>Users</h3>
+                    <ul id="user-list"></ul>
+                </div>
+                <footer class="sidebar-footer">
+                    <button id="disconnect" class="danger">Disconnect</button>
+                </footer>
+            </aside>
+            <div id="sidebar-backdrop" class="sidebar-backdrop"></div>
+            <section class="chat-panel">
+                <header class="chat-header">
+                    <button id="sidebar-toggle-main" type="button" class="icon-button mobile-only" aria-label="Toggle sidebar">&#9776;</button>
+                    <h2>Feed</h2>
+                    <span id="connection-status">Offline</span>
+                </header>
+                <div id="message-container" class="messages" aria-live="polite"></div>
+                <form id="message-form" class="composer" autocomplete="off">
+                    <textarea id="message-input" rows="2" placeholder="Type a message" required></textarea>
+                    <button type="submit" class="primary">Send</button>
+                </form>
+            </section>
+        </section>
+    </main>
+
+    <div id="passphrase-modal" class="modal hidden" role="dialog" aria-modal="true">
+        <div class="modal-content">
+            <header>
+                <h2>Unlock Messages</h2>
+                <button id="modal-close" aria-label="Close">&times;</button>
+            </header>
+            <p id="modal-user"></p>
+            <form id="unlock-form" autocomplete="off">
+                <label for="unlock-phrase">Enter phrase</label>
+                <input id="unlock-phrase" type="password" minlength="4" placeholder="Required to decrypt messages">
+                <label for="unlock-nickname">Nickname (local only)</label>
+                <input id="unlock-nickname" type="text" maxlength="40" placeholder="Optional alias">
+                <p class="hint">Nicknames live only in your browser.</p>
+                <div class="modal-actions">
+                    <button type="submit" class="primary">Apply</button>
+                </div>
+                <p id="unlock-feedback" class="feedback" role="alert"></p>
+            </form>
+        </div>
+    </div>
+
+    <template id="message-template">
+        <article class="message">
+            <div class="meta">
+                <span class="sender"></span>
+                <span class="timestamp"></span>
+            </div>
+            <div class="body encrypted"></div>
+        </article>
+    </template>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
+
+

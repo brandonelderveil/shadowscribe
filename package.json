@@ -1,0 +1,13 @@
+{
+  "name": "shadowscribe",
+  "version": "1.0.0",
+  "description": "Ephemeral encrypted chat rooms secured with per-user passphrases.",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "selfsigned": "^2.1.1",
+    "ws": "^8.18.0"
+  }
+}
