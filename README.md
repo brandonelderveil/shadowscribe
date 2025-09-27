@@ -6,11 +6,11 @@ ShadowScribe is an experimental, ephemeral chat service that layers client-side 
 
 ## Feature Overview
 
-- **Ephemeral rooms** � Room state is in-memory only. When the last socket disconnects or 24 hours elapse, the room is invalidated forever.
-- **Per-user passphrases** � Everyone derives an AES-GCM key from their phrase and salt (PBKDF2-SHA256 w/250k iterations). Others must supply the same phrase to decrypt that user�s feed.
-- **No historical replay** � Clients joining late never receive earlier messages.
-- **TLS-first transport** � The server refuses to boot without TLS unless you opt into an insecure development mode. If you omit `TLS_CERT_PATH`/`TLS_KEY_PATH`, a self-signed �snakeoil� cert is minted automatically under `certs/`.
-- **Self-contained stack** � Vanilla HTML/CSS/JS front-end, Node.js + `ws` broker. No database, no external services.
+- **Ephemeral rooms** Room state is in-memory only. When the last socket disconnects or 24 hours elapse, the room is invalidated forever.
+- **Per-user passphrases** Everyone derives an AES-GCM key from their phrase and salt (PBKDF2-SHA256 w/250k iterations). Others must supply the same phrase to decrypt that user s feed.
+- **No historical replay** Clients joining late never receive earlier messages.
+- **TLS-first transport** The server refuses to boot without TLS unless you opt into an insecure development mode. If you omit `TLS_CERT_PATH`/`TLS_KEY_PATH`, a self-signed snakeoil cert is minted automatically under `certs/`.
+- **Self-contained stack** Vanilla HTML/CSS/JS front-end, Node.js + `ws` broker. No database, no external services.
 
 ## Quick Start
 
@@ -29,7 +29,7 @@ ShadowScribe is an experimental, ephemeral chat service that layers client-side 
 3. Browse to `https://localhost:3000` (accept the self-signed cert if prompted).
 4. Generate a room UUID, pick a passphrase (long and unique!), and share both over a trusted channel with your peers.
 
-For quick local experiments you can bypass TLS with `ALLOW_INSECURE=true npm start`, but never deploy that configuration to users�it falls back to plain HTTP/WS.
+For quick local experiments you can bypass TLS with `ALLOW_INSECURE=true npm start`, but never deploy that configuration to users it falls back to plain HTTP/WS.
 
 ## HTTPS / TLS Configuration
 
@@ -51,18 +51,18 @@ When TLS is enabled the server emits HSTS, CSP, and other security headers. Clie
 
 ## Known Attack Vectors & Pitfalls
 
-- **Weak passphrases** � PBKDF2 makes brute force slower but not impossible; short or reused phrases collapse security.
-- **Compromised host** � Root access to the server or reverse proxy allows JS injection, traffic logging, or key theft.
-- **Endpoint compromise** � Malicious extensions, keyloggers, or XSS can steal passphrases and plaintext.
-- **Timing & traffic analysis** � Adversaries observing both ends of your VPN/Tor circuit can correlate packet timing to deanonymize.
-- **Replay/flooding** � The broker forwards whatever it receives; no anti-replay counters or rate limits exist.
-- **Stylometry/PII leakage** � Even with strong crypto, messages themselves can betray identity.
-- **MITM of TLS** � Accepting forged certificates or running with `ALLOW_INSECURE` lets an attacker intercept phrases.
+- **Weak passphrases** PBKDF2 makes brute force slower but not impossible; short or reused phrases collapse security.
+- **Compromised host** Root access to the server or reverse proxy allows JS injection, traffic logging, or key theft.
+- **Endpoint compromise** Malicious extensions, keyloggers, or XSS can steal passphrases and plaintext.
+- **Timing & traffic analysis** Adversaries observing both ends of your VPN/Tor circuit can correlate packet timing to deanonymize.
+- **Replay/flooding** The broker forwards whatever it receives; no anti-replay counters or rate limits exist.
+- **Stylometry/PII leakage** Even with strong crypto, messages themselves can betray identity.
+- **MITM of TLS** Accepting forged certificates or running with `ALLOW_INSECURE` lets an attacker intercept phrases.
 
 ## Hardening Ideas for Hosts
 
 - Run behind a hardened reverse proxy with strict TLS configs (modern cipher suites, ALPN enforcement, HTTP/2 disabled if unnecessary).
-- Terminate TLS with real certificates (ACME/Let�s Encrypt) and pin fingerprints at the proxy; keep auto-generated dev certs strictly local.
+- Terminate TLS with real certificates (ACME/Let s Encrypt) and pin fingerprints at the proxy; keep auto-generated dev certs strictly local.
 - Deploy on minimal OS images, apply updates, enable SELinux/AppArmor, and run the Node process under a constrained user.
 - Isolate the broker (containers/VMs), add seccomp profiles, and restrict outbound network egress.
 - Store secrets (TLS keys, future room metadata) in a dedicated vault or HSM; avoid flat files on disk.
@@ -80,7 +80,7 @@ When TLS is enabled the server emits HSTS, CSP, and other security headers. Clie
 - Consider dedicated clients (Electron, native apps) that can sandbox key material away from general browsing.
 - Layer additional anonymity: reputable VPN + Tor, or multi-hop proxies you control.
 
-## Future Enhancements (toward the mythical �100/100�)
+## Future Enhancements (toward the mythical 100/100 )
 
 - Stronger key exchange: X3DH with Double Ratchet for forward secrecy and post-compromise security.
 - Post-quantum hybrid encryption (e.g., Kyber + X25519) for long-term confidentiality.
